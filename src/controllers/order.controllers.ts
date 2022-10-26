@@ -8,7 +8,7 @@ import fs from 'fs-extra'
 export async function createOrder(req:Request, res:Response){
     console.log('Saving Order');
     console.log(req.body);
-    const {Status,FullNameUser,Paid,Latitude,Lenght,Products: [{_id,IdProducts,Amount}]}=req.body;
+    const {Status,FullNameUser,Paid,Latitude,Lenght,DateDeliver,DateReturn,Products: [{_id,IdProducts,Amount}]}=req.body;
     const Products = req.body.Products;
     const newOrder = {
         Status: Status,
@@ -16,6 +16,8 @@ export async function createOrder(req:Request, res:Response){
         Paid: Paid,
         Latitude: Latitude,
         Lenght: Lenght,
+        DateDeliver: DateDeliver,
+        DateReturn: DateReturn,
         Products: Products,
     }
     const order = new Orders(newOrder)
@@ -51,7 +53,7 @@ export async function deleteOrder(req:Request, res:Response):Promise<Response> {
 
 export async function updateOrder(req:Request, res:Response):Promise<Response> {
     const {id}= req.params
-    const {Status,FullNameUser,Paid,Latitude,Lenght,Products: [{_id,IdProducts,Amount}]} = req.body;
+    const {Status,FullNameUser,Paid,Latitude,Lenght,DateDeliver,DateReturn,Products: [{_id,IdProducts,Amount}]} = req.body;
     const Products = req.body.Products;
     const updateOrder = await Orders.findByIdAndUpdate(id,{
         Status,
@@ -59,6 +61,8 @@ export async function updateOrder(req:Request, res:Response):Promise<Response> {
         Paid,
         Latitude,
         Lenght,
+        DateDeliver,
+        DateReturn,
         Products
     },{new:true})
     return res.json({

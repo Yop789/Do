@@ -6,6 +6,8 @@ const order = new Schema({
 	Paid:           Boolean,
 	Latitude:       Number,
 	Lenght:         Number,
+	DateDeliver:    String,
+	DateReturn:     String,
 	Products: [
 		{
             _id:        String,
@@ -23,6 +25,8 @@ interface IOrder extends Document{
 	Paid:           boolean,
 	Latitude:       number,
 	Lenght:         number,
+	DateDeliver:    string,
+	DateReturn:     string,
 	Products: [
 		{
             _id:        string,
