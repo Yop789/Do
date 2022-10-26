@@ -6,12 +6,13 @@ import fs from "fs-extra";
 export async function createUser(req: Request, res: Response) {
   console.log("Saving User");
   console.log(req.body);
-  const { Name, LastName, E_mail, Latitude, Lenght, Customer, Admin } =
+  const { Name, LastName, E_mail, Password, Latitude, Lenght, Customer, Admin } =
     req.body;
   const newUser = {
     Name: Name,
     LastName: LastName,
     E_mail: E_mail,
+    Password: Password,
     Latitude: Latitude,
     Lenght: Lenght,
     Customer: Customer,
@@ -55,7 +56,7 @@ export async function updateUser(
   res: Response
 ): Promise<Response> {
   const { id } = req.params;
-  const { Name, LastName, E_mail, Latitude, Lenght, Customer, Admin } =
+  const { Name, LastName, E_mail, Password, Latitude, Lenght, Customer, Admin } =
     req.body;
   const updateUser = await User.findByIdAndUpdate(
     id,
@@ -63,6 +64,7 @@ export async function updateUser(
       Name,
       LastName,
       E_mail,
+      Password,
       Latitude,
       Lenght,
       Customer,
