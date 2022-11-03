@@ -7,23 +7,23 @@ export async function createProduct(req: Request, res: Response) {
   console.log("Saving product");
   console.log(req.body);
   const {
-        Name,
-		Description,
-		TotalProduct,
-		TotalStock,
-		TotalService,
-		Type,
-		Price	
+    Name,
+    Description,
+    TotalProduct,
+    TotalStock,
+    TotalService,
+    Type,
+    Price,
   } = req.body;
   const newProduct = {
-        Name:           Name,
-        Description:    Description,
-        TotalProduct:   TotalProduct,
-        TotalStock:     TotalStock,
-        TotalService:   TotalService,
-        Type:           Type,
-        Price:          Price,
-        imagePath: req.file?.path,
+    Name: Name,
+    Description: Description,
+    TotalProduct: TotalProduct,
+    TotalStock: TotalStock,
+    TotalService: TotalService,
+    Type: Type,
+    Price: Price,
+    imagePath: req.file?.path,
   };
   const product = new Products(newProduct);
   await product.save();
@@ -33,13 +33,27 @@ export async function createProduct(req: Request, res: Response) {
     message: "Product succesfully saved",
   });
 }
+export async function getType(req: Request, res: Response): Promise<Response> {
+  const { Type } = req.body;
+  if (req.body != null) {
+    const tipo = await Products.find({ Type: req.body.Type }, {}).limit(4);
+    return res.json(tipo);
+  } else {
+    return res.json("A type of product is necessary");
+  }
+}
 
 export async function getProducts(
   req: Request,
   res: Response
 ): Promise<Response> {
-  const product = await Products.find();
-  return res.json(product);
+  const { Type } = req.body;
+  if (req.body != null) {
+    const product = await Products.find({ Type: req.body.Type }, {});
+    return res.json(product);
+  } else {
+    return res.json("A type of product is necessary");
+  }
 }
 
 export async function getProduct(
@@ -47,7 +61,7 @@ export async function getProduct(
   res: Response
 ): Promise<Response> {
   const { id } = req.params;
-  const product = await     Products.findById(id);
+  const product = await Products.findById(id);
   console.log(req.params.id);
   return res.json({ product });
 }
@@ -73,24 +87,24 @@ export async function updateProduct(
 ): Promise<Response> {
   const { id } = req.params;
   const {
-        Name,
-		Description,
-		TotalProduct,
-		TotalStock,
-		TotalService,
-		Type,
-		Price
+    Name,
+    Description,
+    TotalProduct,
+    TotalStock,
+    TotalService,
+    Type,
+    Price,
   } = req.body;
   const updateProduct = await Products.findByIdAndUpdate(
     id,
     {
-        Name,
-		Description,
-		TotalProduct,
-		TotalStock,
-		TotalService,
-		Type,
-		Price
+      Name,
+      Description,
+      TotalProduct,
+      TotalStock,
+      TotalService,
+      Type,
+      Price,
     },
     { new: true }
   );
